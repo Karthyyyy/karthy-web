@@ -1,0 +1,23 @@
+{
+  "name": "karthy-bot",
+  "version": "0.0.0",
+  "description": "A bot",
+  "type": "module",
+  "main": "src",
+  "scripts": {
+    "start": "node .",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Karthy",
+  "license": "ISC",
+  "dependencies": {
+    "bancho.js": "^0.9.7",
+    "discord.js": "^12.5.3",
+    "discord.js-commando": "^0.12.3",
+    "dotenv": "^8.2.0",
+    "esm": "^3.2.25",
+    "node-fetch": "^2.6.1",
+    "tmi.js": "^1.8.2",
+    "yarn": "^1.22.10"
+  }
+}

@@ -1,0 +1,84 @@
+
+@function tint($color, $percentage) {
+    @return mix(rgb(255, 255, 255), $color, $percentage);
+}
+
+@function shade($color, $percentage) {
+    @return mix(rgb(0, 0, 0), $color, $percentage);
+}
+
+// Shades
+$darker-4: 80;
+$darker-3: 60;
+$darker-2: 40;
+$darker-1: 20;
+
+$lighter-1: 20;
+$lighter-2: 40;
+$lighter-3: 70;
+$lighter-4: 90;
+
+// Colours
+$main-blue: #5496FF;
+$main-blue-1: shade($main-blue, $darker-4);
+$main-blue-2: shade($main-blue, $darker-3);
+$main-blue-3: shade($main-blue, $darker-2);
+$main-blue-4: shade($main-blue, $darker-1);
+$main-blue-5: $main-blue;
+$main-blue-6: tint($main-blue, $lighter-1);
+$main-blue-7: tint($main-blue, $lighter-2);
+$main-blue-8: tint($main-blue, $lighter-3);
+$main-blue-9: tint($main-blue, $lighter-4);
+
+$secondary-blue: #6854FF;
+$secondary-blue-1: shade($secondary-blue, $darker-4);
+$secondary-blue-2: shade($secondary-blue, $darker-3);
+$secondary-blue-3: shade($secondary-blue, $darker-2);
+$secondary-blue-4: shade($secondary-blue, $darker-1);
+$secondary-blue-5: $secondary-blue;
+$secondary-blue-6: tint($secondary-blue, $lighter-1);
+$secondary-blue-7: tint($secondary-blue, $lighter-2);
+$secondary-blue-8: tint($secondary-blue, $lighter-3);
+$secondary-blue-9: tint($secondary-blue, $lighter-4);
+
+$secondary-purple: #BD54FF;
+$secondary-purple-1: shade($secondary-purple, $darker-4);
+$secondary-purple-2: shade($secondary-purple, $darker-3);
+$secondary-purple-3: shade($secondary-purple, $darker-2);
+$secondary-purple-4: shade($secondary-purple, $darker-1);
+$secondary-purple-5: $secondary-purple;
+$secondary-purple-6: tint($secondary-purple, $lighter-1);
+$secondary-purple-7: tint($secondary-purple, $lighter-2);
+$secondary-purple-8: tint($secondary-purple, $lighter-3);
+$secondary-purple-9: tint($secondary-purple, $lighter-4);
+
+$black: #050607;
+
+$grey: #667791;
+$grey-1: shade($grey, $darker-4);
+$grey-2: shade($grey, $darker-3);
+$grey-3: shade($grey, $darker-2);
+$grey-4: shade($grey, $darker-1);
+$grey-5: $grey;
+$grey-6: tint($grey, $lighter-1);
+$grey-7: tint($grey, $lighter-2);
+$grey-8: tint($grey, $lighter-3);
+$grey-9: tint($grey, $lighter-4);
+$dark-grey: $grey-1;
+
+$white: #F6F9FF;
+
+// Body
+$body-bg: #f8fafc;
+
+$pastel-red: #ff6961;
+$pastel-red-light: #ffb2ae;
+$pastel-green: #61ff69;
+$pastel-green-light: #ffb2ae;
+$pastel-blue: #6961ff;
+$pastel-blue-light: #aed3ff;
+
+// Typography
+$font-family-sans-serif: 'Nunito', sans-serif;
+$font-size-base: 0.9rem;
+$line-height-base: 1.6;
