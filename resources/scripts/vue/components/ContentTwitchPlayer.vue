@@ -23,8 +23,8 @@
 </template>
 
 <script setup lang="ts">
+// @ts-ignore
 const appUrl = import.meta.env.VITE_APP_DOMAIN;
-console.log(appUrl)
 </script>
 
 <style scoped lang="scss">

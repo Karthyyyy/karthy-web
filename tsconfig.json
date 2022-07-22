@@ -15,7 +15,8 @@
             "dom"
         ],
         "types": [
-            "node"
+            "node",
+            "vite/client"
         ],
         "baseUrl": ".",
         "paths": {
