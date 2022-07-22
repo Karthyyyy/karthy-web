@@ -3,7 +3,7 @@
         <div class="twitch-player-container">
             <div>
                 <iframe
-                    src="https://player.twitch.tv/?channel=karthy&parent=127.0.0.1"
+                    :src="`https://player.twitch.tv/?channel=karthy&parent=${appUrl}`"
                     allowfullscreen>
                 </iframe>
             </div>
@@ -23,7 +23,8 @@
 </template>
 
 <script setup lang="ts">
-
+const appUrl = import.meta.env.VITE_APP_DOMAIN;
+console.log(appUrl)
 </script>
 
 <style scoped lang="scss">
