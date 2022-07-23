@@ -59,6 +59,7 @@ class AnagramsController extends Controller
 
     public function newRound() {
         set_time_limit(0);
+        ini_set('memory_limit', '1024M');
         $gamesWordsList = new GamesWordsList;
         $masterWord = $gamesWordsList->whereRaw('LENGTH(word) = 10')->inRandomOrder()->first();
         $masterCharCount = strlen($masterWord["word"]);
