@@ -53,9 +53,14 @@ const closeModal = () => {
     box-shadow:0 0 15px 4px rgba(0,0,0,0.6);
     border: 2px solid $main-blue-2;
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
+
+    & > * {
+        flex-grow: 1;
+        width: 100%;
+    }
 }
 
 .fade-enter-active,

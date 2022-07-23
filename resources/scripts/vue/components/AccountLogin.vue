@@ -29,7 +29,7 @@
             </form>
         </div>
 
-        <div v-if="allowRegistrations === 'false'" class="alert alert-danger disabled-registrations-msg">
+        <div v-if="allowRegistrations == 'false'" class="alert alert-danger disabled-registrations-msg">
             Account creation is currently disabled while things are being worked on! If you are a creator wishing to test things out please <a href="https://discord.gg/karthy">join my Discord</a> and drop Karthy a message!
         </div>
 

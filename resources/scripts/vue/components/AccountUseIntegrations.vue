@@ -1,5 +1,5 @@
 <template>
-    <div v-if="allowRegistrations === 'true'">
+    <div v-if="allowRegistrations == 'true'">
        <div class="integrations-separator">
             <span class="toggle-line">Or</span>
         </div>
