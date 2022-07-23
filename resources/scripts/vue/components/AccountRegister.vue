@@ -56,7 +56,7 @@ const doSubmit = (event: Event) => {
         axios.get('/sanctum/csrf-cookie').then(response => {
             axios.post('api/register', {
                 username: state.username,
-                email: state.email,
+                email: state.email.toLowerCase(),
                 password: state.password
             }).then(response => {
                 if (response.data.success) {

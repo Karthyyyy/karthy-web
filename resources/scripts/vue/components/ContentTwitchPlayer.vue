@@ -23,7 +23,6 @@
 </template>
 
 <script setup lang="ts">
-// @ts-ignore
 const appUrl = import.meta.env.VITE_APP_DOMAIN;
 </script>
 

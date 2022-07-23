@@ -1,8 +1,10 @@
 <template>
-    <div class="account-register-toggle">
-        <span class="toggle-line" @click="toggleShowAccountRegister">Or <span class="text-highlight">create an account</span></span>
+    <div v-if="state.allowRegistrations === 'true'">
+        <div class="account-register-toggle">
+            <span class="toggle-line" @click="toggleShowAccountRegister">Or <span class="text-highlight">create an account</span></span>
+        </div>
+        <AccountRegister v-if="state.showAccountRegister" />
     </div>
-    <AccountRegister v-if="state.showAccountRegister" />
 </template>
 
 <script setup lang="ts">
@@ -10,10 +12,12 @@ import AccountRegister from "~components/AccountRegister.vue";
 import { reactive } from 'vue';
 
 const state = reactive({
+    allowRegistrations: import.meta.env.VITE_ALLOW_REGISTRATION,
     showAccountRegister: false
 })
 
 const toggleShowAccountRegister = () => {
+    console.log(state);
     state.showAccountRegister = !state.showAccountRegister;
 }
 </script>

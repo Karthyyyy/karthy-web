@@ -47,11 +47,15 @@ const closeModal = () => {
 .modal-content {
     border-radius: 10px;
     background: $dark-grey;
-    min-width: 30vw;
+    width: 30vw;
     min-height: 30vh;
     padding: 2rem;
     box-shadow:0 0 15px 4px rgba(0,0,0,0.6);
     border: 2px solid $main-blue-2;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
 }
 
 .fade-enter-active,

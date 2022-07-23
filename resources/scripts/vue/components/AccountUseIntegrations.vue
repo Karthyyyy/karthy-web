@@ -1,29 +1,31 @@
 <template>
-    <div class="integrations-separator">
-        <span class="toggle-line">Or</span>
-    </div>
-    <div class="account-integrations">
-        <button class="twitch">
-            <div>
-                <font-awesome-icon :icon="['fa-brands', 'twitch']" />
-            </div>
-            <div>
-                Login With Twitch
-            </div>
-        </button>
-        <button class="youtube">
-            <div>
-                <font-awesome-icon :icon="['fa-brands', 'youtube']" />
-            </div>
-            <div>
-                Login With YouTube
-            </div>
-        </button>
+    <div v-if="allowRegistrations === 'true'">
+       <div class="integrations-separator">
+            <span class="toggle-line">Or</span>
+        </div>
+        <div class="account-integrations">
+            <button class="twitch">
+                <div>
+                    <font-awesome-icon :icon="['fa-brands', 'twitch']" />
+                </div>
+                <div>
+                    Login With Twitch
+                </div>
+            </button>
+            <button class="youtube">
+                <div>
+                    <font-awesome-icon :icon="['fa-brands', 'youtube']" />
+                </div>
+                <div>
+                    Login With YouTube
+                </div>
+            </button>
+        </div> 
     </div>
 </template>
 
 <script setup lang="ts">
-
+const allowRegistrations = import.meta.env.VITE_ALLOW_REGISTRATION;
 </script>
 
 <style scoped lang="scss">

@@ -6,7 +6,7 @@
         </div>
 
         <div class="login-form-container">
-            <form @submit.prevent="doSubmit">
+            <form @submit.prevent="doSubmit" class="login-form">
                 <div>
                     <label for="email">E-Mail Address</label>
 
@@ -29,6 +29,10 @@
             </form>
         </div>
 
+        <div v-if="allowRegistrations === 'false'" class="alert alert-danger disabled-registrations-msg">
+            Account creation is currently disabled while things are being worked on! If you are a creator wishing to test things out please <a href="https://discord.gg/karthy">join my Discord</a> and drop Karthy a message!
+        </div>
+
     </div>
 </template>
 
@@ -39,6 +43,8 @@ import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 const router = useRouter();
 const store = useStore();
+
+const allowRegistrations = import.meta.env.VITE_ALLOW_REGISTRATION;
 
 const state = reactive({
     email: "",
@@ -70,7 +76,25 @@ const doSubmit = (event: Event) => {
 </script>
 
 <style scoped lang="scss">
+@import '~styles/_variables';
+.login-form {
+    > div {
+        margin-bottom: 1rem;
+    }
+}
 .login-form-container {
     margin-bottom: 1rem;
+}
+.disabled-registrations-msg {
+    width: 100%;
+    color: $pastel-red;
+
+    a {
+        text-decoration: underline;
+
+        &:hover {
+            text-decoration: none;
+        }
+    }
 }
 </style>
