@@ -132,7 +132,7 @@ const endRound = (resultsToSave: AnagramTypes.RoundResults) => {
 }
 
 const loadGame = () => {
-    axios.get('/api/games/words/intialize_words').then(response => {
+    axios.get('/api/games/words/initialize_words').then(response => {
         if (response.data.activeGame) {
             console.log(response.data)
             state.gameUserScores = JSON.parse(response.data.activeGame.score_data) ?? {};
