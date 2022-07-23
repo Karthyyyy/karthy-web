@@ -24,15 +24,18 @@ class UserController extends Controller
             $user->save();
 
             $success = true;
-            $message = 'User register successfully';
+            $data = null;
+            $message = 'Your account has been created, please log in';
         } catch (\Illuminate\Database\QueryException $ex) {
             $success = false;
-            $message = $ex->getMessage();
+            $data = $ex->getMessage();
+            $message = 'Sorry your account could not be created';
         }
 
         // response
         $response = [
             'success' => $success,
+            'data' => $data,
             'message' => $message,
         ];
         return response()->json($response);
@@ -61,7 +64,6 @@ class UserController extends Controller
             $authData = array();
         }
 
-        // response
         $response = [
             'authData' => $authData,
             'success' => $success,
@@ -78,15 +80,18 @@ class UserController extends Controller
         try {
             Session::flush();
             $success = true;
+            $data = null;
             $message = 'Successfully logged out';
         } catch (\Illuminate\Database\QueryException $ex) {
             $success = false;
-            $message = $ex->getMessage();
+            $data = $ex->getMessage();
+            $message = 'There was a problem logging you out';
         }
 
         // response
         $response = [
             'authData' => array(),
+            'data' => $data,
             'success' => $success,
             'message' => $message,
         ];

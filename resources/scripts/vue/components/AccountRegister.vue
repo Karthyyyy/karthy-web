@@ -6,7 +6,7 @@
         </div>
 
         <div class="register-form-container">
-            <form @submit.prevent="doSubmit">
+            <form @submit.prevent="doSubmit" class="register-form">
                 <div>
                     <label for="username">Display Name</label>
 
@@ -71,3 +71,13 @@ const doSubmit = (event: Event) => {
     }
 }
 </script>
+
+<style scoped lang="scss">
+@import '~styles/variables';
+
+.register-form {
+    & > div {
+        margin-bottom: 1rem;
+    }
+}
+</style>
