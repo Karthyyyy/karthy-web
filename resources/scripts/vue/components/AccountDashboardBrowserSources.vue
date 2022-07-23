@@ -8,7 +8,7 @@
                     <option v-for="browserSource in browserSources" :value="browserSource">{{ browserSource.name }}</option>
                     <option :value="blankBrowserSource">Add a new source...</option>
                 </select>
-                <button class="browser-source-new">New browser source</button>
+                <button class="browser-source-new" @click="setNewBrowserSource()">New browser source</button>
             </div>
             <AccountDashboardBrowserSourceForm :browserSource="activeBrowserSource" v-if="activeBrowserSource" />
         </div> 
@@ -43,6 +43,10 @@ const blankBrowserSource = reactive<BrowserSourceData>({
     name: "",
     contents: []
 });
+
+const setNewBrowserSource = () => {
+    activeBrowserSource.value = blankBrowserSource;
+}
 
 const getBrowserSources = () => {
     axios.get('/api/account/get_browser_sources').then(response => {

@@ -15,7 +15,7 @@ class UserBrowserSource extends Authenticatable
 
     protected $table = "user_browser_source";
     protected $primaryKey = "id";
-    protected $fillable = ['name', 'contents'];
+    protected $fillable = ['user_id', 'name', 'contents'];
 
     public function user() {
         return $this->belongsTo(User::class);

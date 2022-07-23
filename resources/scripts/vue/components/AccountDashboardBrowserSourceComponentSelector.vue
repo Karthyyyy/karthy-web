@@ -1,7 +1,7 @@
 <template>
     <div class="browser-source-components-container">
         <div>
-            Anagrams on Stream
+            Anagrams
             <button @click.prevent="emit('addComponent', 'anagrams')">Add me!</button>
         </div>
     </div>

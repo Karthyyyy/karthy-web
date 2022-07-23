@@ -3,7 +3,7 @@
         <div class="twitch-player-container">
             <div>
                 <iframe
-                    :src="`https://player.twitch.tv/?channel=karthy&parent=${appUrl}`"
+                    :src="`https://player.twitch.tv/?channel=karthy&parent=${appUrl}&parent=www.${appUrl}`"
                     allowfullscreen>
                 </iframe>
             </div>

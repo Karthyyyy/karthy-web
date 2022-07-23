@@ -57,11 +57,11 @@ const doSubmit = (event: Event) => {
     if (state.password.length > 0) {
         axios.get('/sanctum/csrf-cookie').then(response => {
             axios.post('/api/login', {
-                email: state.email,
+                email: state.email.toLowerCase(),
                 password: state.password
             }).then(response => {
                 if (response.data.success) {
-                    //router.push({name: 'Home'});
+                    router.push({name: 'AccountDashboard'});
                     store.commit('setAuthData', response.data.authData);
                     store.commit('closeModal');
                 } else {

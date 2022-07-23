@@ -1,9 +1,19 @@
 <template>
     <div class="browser-source-form-container">
         <form>
-            <router-link :to="{name: 'BrowserSource', params: { id: browserSourceData.id}}">
-                <button style="margin-bottom: 1rem;display: block;">Go to browser source: {{ browserSourceData.id }}</button>
-            </router-link>
+            <div class="browser-source-url-container" v-if="browserSourceData.id">
+                <div class="browser-source-url" @click="toggleBrowserSourceUrl()">
+                    <div class="browser-source-hider" v-if="!showBrowserSourceUrl">
+                        <font-awesome-icon :icon="['fas', 'lock']"></font-awesome-icon> Click to see your browser source url
+                    </div>
+                    <div :class="{ blurred : !showBrowserSourceUrl }" class="browser-source-url-text">
+                        {{ browserSourceUrl }}
+                    </div>
+                </div>
+                <div class="browser-source-copy" @click="copyToClipboard()">
+                    <font-awesome-icon :icon="['fas', 'clipboard']"></font-awesome-icon> {{ clipboardText }}
+                </div>
+            </div>
             
             <label for="browserSourceName">Browser Source Name</label>
             <div class="browser-source-name-container">
@@ -19,6 +29,7 @@
                 </div>
 
                 <div v-if="openedComponents.includes(key)" class="component-settings">
+                    <div class="alert-text">These features do not affect anything yet, but the defaults will work fine!</div>
                     <label :for="`component${key}Resolution`">Resolution</label>
                     <select :id="`component${key}Resolution`" v-model="browserSourceData.contents[key].resolution">
                         <option :value="{ width: 1920, height: 1080 }">1920 x 1080</option>
@@ -76,10 +87,15 @@ type BrowserSourceData = {
     contents: ComponentData[]
 }
 
+const appUrl = import.meta.env.VITE_APP_URL;
+
 const props = defineProps<{ browserSource: BrowserSourceData }>();
 // Pull from db
 const browserSourceData = toRef(props, 'browserSource');
 
+const browserSourceUrl = ref<string>(`${appUrl}/browser_source/${browserSourceData.value.id}`)
+const clipboardText = ref<string>('Copy');
+const showBrowserSourceUrl = ref<boolean>(false);
 const showComponentSelectors = ref<boolean>(false);
 const openedComponents = ref<number[]>([]);
 const formStatus = reactive<{ success: boolean | null, message: string | null }>({
@@ -90,6 +106,16 @@ const submitButtonText = computed(() => {
     return (browserSourceData.value.id ? 'Update' : 'Create');
 })
 
+const copyToClipboard = () => {
+    navigator.clipboard.writeText(browserSourceUrl.value);
+    clipboardText.value = 'Copied!';
+    setTimeout(() => {
+        clipboardText.value = 'Copy';
+    }, 2500)
+}
+const toggleBrowserSourceUrl = () => {
+    showBrowserSourceUrl.value = !showBrowserSourceUrl.value;
+}
 const submitForm = () => {
      axios.post('/api/account/save_browser_source', {
         id: browserSourceData.value.id,
@@ -141,7 +167,73 @@ const showComponentModal = () => {
 
 .browser-source-form-container {
     margin-top: 1rem;
-    padding: 0 1rem;
+    padding: 1rem;
+    box-shadow: 2px 2px 2px rgba(0,0,0,0.5);
+    border: 1px solid $grey-3;
+    border-radius: 0.5rem;
+}
+
+.browser-source-url-container {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    background: $grey-2;
+    border-radius: 0.5rem;
+    align-items: center;
+    height: 39px;
+    line-height: 39px;
+    cursor: pointer;
+    margin-bottom: 1rem;
+
+    svg {
+        margin-right: 0.5rem;
+    }
+
+    .browser-source-url { 
+        position: relative;
+        font-size: 0.7em;
+        flex-grow: 1;
+        display: flex;
+        align-items: center;
+        height: 100%;
+
+        & .browser-source-url-text {
+            text-align: center;
+            width: 100%;
+        }
+        
+        & .blurred {
+            filter: blur(0.2rem) brightness(50%);
+        }
+
+        .browser-source-hider {
+            position: absolute;
+            flex-grow: 1;
+            font-size: 1rem;
+            width: 100%;
+            height: 100%;
+            z-index: 20;
+            text-align: center;
+            transition-duration: 0.2s;
+
+            &:hover {
+                transform: scale(1.1);
+            }
+        }
+    }
+
+    .browser-source-copy {
+        display: flex;
+        align-items: center;
+        background: $grey-3;
+        border-radius: 0.5rem;
+        height: 100%;
+        padding: 0 1rem;
+
+        &:hover {
+            background: $grey-4;
+        }
+    }
 }
 
 .browser-source-name-container {
@@ -161,11 +253,11 @@ const showComponentModal = () => {
 .component-container {
     margin-top: 1rem;
     &:nth-of-type(odd) > .component-header {
-        background: $secondary-blue-3;
+        background: $secondary-blue-4;
     }
 
     &:nth-of-type(even) > .component-header {
-        background: $secondary-purple-3;
+        background: $secondary-purple-4;
     }
 }
 
@@ -217,5 +309,11 @@ const showComponentModal = () => {
             color: $pastel-red;
         }
     }
+}
+
+.alert-text {
+    margin-bottom: 1rem;
+    width: 100%;
+    text-align: center;
 }
 </style>
