@@ -308,7 +308,6 @@ const restartGame = () => {
 }
 
 const endRound = () => {
-    console.log(roundState.resultsRound)
     emit('endRound', roundState.resultsRound);
 }
 

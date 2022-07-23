@@ -41,10 +41,8 @@ const getBrowserSources = () => {
     }).then(response => {
         browserSource.data = response.data;
         JSON.parse(response.data.contents).forEach((value: ComponentData) => {
-            console.log(value);
             activeComponents.components.push(componentsMap[value.component])
         });
-        console.log(response.data);
     }).catch(function (error) {
         console.error(error);
     });

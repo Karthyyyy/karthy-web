@@ -53,7 +53,6 @@ const getBrowserSources = () => {
         response.data.forEach((browserSource: App.Models.UserBrowserSource) => {
             browserSources.value.push(browserSource);
         })
-        console.log(response.data);
     }).catch(function (error) {
         console.error(error.response);
     });

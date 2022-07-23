@@ -43,7 +43,7 @@ const store = createStore({
             axios.get('/api/user/show')
                 .then(response => {
                     commit('setUser', response.data);
-                }).catch(err => console.log(err.response.data));
+                }).catch(err => console.error(err.response.data));
         }
     }
 });

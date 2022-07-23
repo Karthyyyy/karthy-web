@@ -118,10 +118,6 @@ const updateUserStats = (newUserStats: AnagramTypes.UserStats[]) => {
 }
 
 const endRound = (resultsToSave: AnagramTypes.RoundResults) => {
-    resultsToSave.userScores = {
-        matt: {xpGained: 52, userId: '37277689', platform: 'twitch'},
-        karthy: {xpGained: 48, userId: '37277688', platform: 'twitch'},
-    }
     for (const [key, value] of Object.entries(resultsToSave.userScores)) {
         if (state.gameUserScores?.[key]) state.gameUserScores[key].xpGained += value.xpGained;
         else state.gameUserScores[key] = value;
@@ -136,7 +132,6 @@ const loadGame = () => {
         userId: props.userId
     }).then(response => {
         if (response.data.activeGame) {
-            console.log(response.data)
             state.gameUserScores = JSON.parse(response.data.activeGame.score_data) ?? {};
             state.gameXp = response.data.activeGame.game_xp ?? 0;
         }

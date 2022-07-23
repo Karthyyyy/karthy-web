@@ -120,13 +120,11 @@ const calculateUserXpWidth = (currentXp: number, currentLevelXp: number, nextLev
 }
 
 const saveGame = () => {
-    console.log('saving game')
     const postData = {
         userId: props.gameState.userId,
         gameXp: props.gameState.gameXp,
         userResults: props.gameState?.gameUserScores
     }
-    console.log(postData)
     if (props.gameState?.results) {
         axios.post('/api/games/words/save_game', postData).then(response => {
         }).catch(function (error) {

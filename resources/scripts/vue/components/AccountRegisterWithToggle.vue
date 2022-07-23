@@ -17,7 +17,6 @@ const state = reactive({
 })
 
 const toggleShowAccountRegister = () => {
-    console.log(state);
     state.showAccountRegister = !state.showAccountRegister;
 }
 </script>
