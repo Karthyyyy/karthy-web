@@ -132,7 +132,9 @@ const endRound = (resultsToSave: AnagramTypes.RoundResults) => {
 }
 
 const loadGame = () => {
-    axios.get('/api/games/words/initialize_words').then(response => {
+    axios.post('/api/games/words/load_game', {
+        userId: props.userId
+    }).then(response => {
         if (response.data.activeGame) {
             console.log(response.data)
             state.gameUserScores = JSON.parse(response.data.activeGame.score_data) ?? {};
