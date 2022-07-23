@@ -1,5 +1,4 @@
 <template>
-{{ state.allowRegistrations }}
     <div v-if="state.allowRegistrations == 'true'">
         <div class="account-register-toggle">
             <span class="toggle-line" @click="toggleShowAccountRegister">Or <span class="text-highlight">create an account</span></span>
