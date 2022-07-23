@@ -20,7 +20,7 @@
                 <div class="board-user-container">
                     <div v-for="(score, user) in sortedRoundScores" v-bind:key="user" class="board-user">
                         <div class="user-level">
-                            {{ props.gameState.gameUserStats?.[user]?.currentLevel.level }}
+                            {{ props.gameState.gameUserStats?.[user]?.currentLevel?.level }}
                         </div>
                         <div class="user">
                             {{ user }}
