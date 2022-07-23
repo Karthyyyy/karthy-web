@@ -65,14 +65,12 @@ class AnagramsController extends Controller
         $masterCharCount = strlen($masterWord["word"]);
         $allWords = $gamesWordsList->query();
         $masterLetters = json_decode($masterWord["char_count"], true);
-        foreach ($masterLetters as $letter => $count) {
-            $allWords = $allWords->orWhere('word', 'like', '%' . $letter . '%');
-        }
+
         $allWords = $allWords->whereRaw('LENGTH(word) < '.$masterCharCount)->get();
 
         $anagramsByLetters = array();
         $anagramsUngrouped = array();
-        
+
 
         $wordsGame = array(
             "masterWord" => $masterWord,
