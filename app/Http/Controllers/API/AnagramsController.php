@@ -70,7 +70,35 @@ class AnagramsController extends Controller
 
         $anagramsByLetters = array();
         $anagramsUngrouped = array();
-
+        foreach($allWords as $key => $word) {
+            $isAnagram = true;
+            $wordCharCount = json_decode($word["char_count"]);
+            foreach($wordCharCount as $letter => $count) {        
+                if (array_key_exists($letter, $masterLetters)) {
+                    if ($count > $masterLetters[$letter]) {
+                        $isAnagram = false;
+                    }
+                } else {
+                    $isAnagram = false;
+                }
+            }
+            if ($isAnagram) {
+                $wordLength = (strlen($word["word"]) >= 9) ? "9+" : strlen($word["word"]);
+                if (!array_key_exists($wordLength, $anagramsByLetters)) {
+                    $anagramsByLetters[$wordLength] = array();
+                }
+                if (!array_key_exists($word["word"], $anagramsUngrouped)) {
+                    $anagramsUngrouped[$word["word"]] = array(
+                        "word" => $word["word"],
+                        "groupedKey" => $wordLength,
+                        "wordId" => $word["id"],
+                        "isWordFound" => false,
+                        "foundByUser" => null
+                    );
+                }
+                array_push($anagramsByLetters[$wordLength], $word);
+            }
+        }
 
         $wordsGame = array(
             "masterWord" => $masterWord,
