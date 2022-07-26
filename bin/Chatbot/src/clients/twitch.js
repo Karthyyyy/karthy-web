@@ -13,7 +13,7 @@ export default class TwitchClient {
                 username: 'karthy',
                 password: process.env.TWITCH_OAUTH_TOKEN
             },
-            channels: [ 'karthy', 'le_nee', 'sleepydan_' ]
+            channels: [ 'karthy' ]
           });
         this.lastMessage = "";
     }
@@ -30,18 +30,7 @@ export default class TwitchClient {
               let messageToSend = {user: tags, message: message, channel: channel, platform: 'twitch'};
               webSocketServer.sendMessage(messageToSend)
             }
-          
-            if (channel === '#sleepydan_') {
-              if(message.includes('!thething')) this.client.say(channel, this.buildMessage(`!thething`));
-              if(message.includes('!lennymoo')) this.client.say(channel, this.buildMessage(`!lennymoo`));
-              if(message.includes('!lennyidfk')) this.client.say(channel, this.buildMessage(`!lennyidfk`));
-              if(message.includes('!lennynuts')) this.client.say(channel, this.buildMessage(`!lennynuts`));
-              if(message.includes('!title')) this.client.say(channel, this.buildMessage(`[Hard] I'M THE DADDY NOW LennyBrows`));
-              if(message.toLowerCase().includes('!so le_nee')) this.client.say(channel, this.buildMessage(`!lennynuts`));
-            }
-            if (channel === '#le_nee') {
-              if(message.includes('pepePoint')) this.client.say(channel, this.buildMessage(`@le_nee pepePoint`));
-            }
+            
             if (channel === '#karthy') {
               if (message.includes("osu.ppy.sh/beatmapsets/")) this.requestBeatmap(message, channel, tags);
             }
