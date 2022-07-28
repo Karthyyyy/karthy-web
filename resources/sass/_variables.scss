@@ -52,10 +52,11 @@ $secondary-purple-7: tint($secondary-purple, $lighter-2);
 $secondary-purple-8: tint($secondary-purple, $lighter-3);
 $secondary-purple-9: tint($secondary-purple, $lighter-4);
 
-$black: #050607;
+$black: rgb(2, 2, 2);
 
 $grey: #667791;
 $grey-1: shade($grey, $darker-4);
+$grey-15: shade($grey, 70);
 $grey-2: shade($grey, $darker-3);
 $grey-3: shade($grey, $darker-2);
 $grey-4: shade($grey, $darker-1);

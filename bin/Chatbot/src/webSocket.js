@@ -1,4 +1,4 @@
-import WebSocket, { WebSocketServer} from 'ws';
+import WebSocket, { WebSocketServer } from 'ws';
 import { twitch } from './app.js';
 
 export default class KarthyBotWebSocketServer {
@@ -15,7 +15,12 @@ export default class KarthyBotWebSocketServer {
             this.webSocketClient = webSocketClient;
             this.webSocketClient.on('message', (data) => {
                 const parsedData = JSON.parse(data);
-                twitch.sendMessage(parsedData.channel, '@'+parsedData.user+' found '+parsedData.word);
+                console.log(parsedData)
+                if (parsedData.action === 'replyWords')
+                    twitch.sendMessage(parsedData.channel, '@'+parsedData.user+' found '+parsedData.word);
+                if (parsedData.action === 'setWords')
+                    twitch.usersData.usersModules[parsedData.user].gameWordsEnabled = parsedData.state;
+                console.log(twitch.usersData);
             });
         });
     }

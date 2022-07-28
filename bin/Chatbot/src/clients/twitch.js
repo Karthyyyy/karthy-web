@@ -1,40 +1,68 @@
 import tmi from 'tmi.js';
 import { webSocketServer } from "../app.js";
 import { osu } from "../app.js";
+import axios from 'axios';
 
 export default class TwitchClient {
     constructor() {
-        this.client = new tmi.Client({
-            connection: {
-              secure: true,
-              reconnect: true
-            },
-            identity: {
-                username: 'karthy',
-                password: process.env.TWITCH_OAUTH_TOKEN
-            },
-            channels: [ 'karthy' ]
-          });
-        this.lastMessage = "";
+      this.client = new tmi.Client({
+        connection: {
+          secure: true,
+          reconnect: true
+        },
+        identity: {
+            username: 'karthy',
+            password: process.env.TWITCH_OAUTH_TOKEN
+        },
+        channels: []
+      });
+      this.lastMessage = "";
     }
 
     initClient() {
+      this.setUsersData();
         this.client.connect();
-        console.log("Twitch connected!");
+        this.handleMessages();
+    }
 
-        this.client.on('message', (channel, tags, message, self) => {
-            // Ignore echoed messages.
-            if(self) return;
+    setUsersData() {
+      const usersData = {
+        usersModules: {
 
-            if (webSocketServer.webSocketClient) {
-              let messageToSend = {user: tags, message: message, channel: channel, platform: 'twitch'};
-              webSocketServer.sendMessage(messageToSend)
+        }
+      }
+      axios.get(process.env.APP_URL+'/api/get_integrations_twitch').then((response) => {
+        if (response.data.success) {
+          response.data.data.forEach((value) => {
+            usersData.usersModules[value.twitch_login] = {
+              osuRequests: true,
+              gameWordsEnabled: false
             }
-            
-            if (channel === '#karthy') {
-              if (message.includes("osu.ppy.sh/beatmapsets/")) this.requestBeatmap(message, channel, tags);
-            }
-        });
+          })
+        }
+        this.client.channels = Object.keys(usersData.usersModules);
+        this.usersData = usersData;
+      }).catch((error) => {
+        console.log(error);
+      })
+      this.usersData = usersData;
+    }
+
+    handleMessages() {
+      this.client.on('message', (channel, tags, message, self) => {
+        const channelUser = channel.replace('#', '');
+        // Ignore echoed messages.
+        if (self) return;
+
+        if ((webSocketServer.webSocketClient) && (this.usersData.usersModules[channelUser].gameWordsEnabled)) {
+          let messageToSend = {user: tags, message: message, channel: channel, platform: 'twitch'};
+          webSocketServer.sendMessage(messageToSend);
+        }
+
+        if ((this.usersData.usersModules[channelUser].osuRequests) && (message.includes("osu.ppy.sh/beatmapsets/"))) {
+          this.requestBeatmap(message, channel, tags);
+        }
+      });
     }
 
     sendMessage(channel, message) {

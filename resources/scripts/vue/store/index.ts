@@ -4,11 +4,13 @@ import axios from "axios";
 const store = createStore({
     state () {
         return {
+            csrf: null,
             showModal: false,
             modalContent: {},
             authData: {
                 isLoggedin: false,
-                user: {}
+                user: {},
+                twitch: {}
             },
             karthyBot: {
                 user: "Karthy",
@@ -23,6 +25,9 @@ const store = createStore({
         }
     },
     mutations: {
+        setCSRF (state, csrfCookie) {
+            state.csrf = csrfCookie;
+        },
         setAuthData (state, authData) {
             state.authData = authData;
         },
@@ -39,11 +44,14 @@ const store = createStore({
         }
     },
     actions: {
-        getUserAuth({commit}) {
-            axios.get('/api/user/show')
-                .then(response => {
-                    commit('setUser', response.data);
-                }).catch(err => console.error(err.response.data));
+        setAuth() {
+            axios.post('/api/checkauth').then((response: any) => {
+                if (response.data.success) {
+                    store.commit('setAuthData', response.data.authData);
+                }
+            }).catch((error: any) => {
+                console.error(error);
+            });
         }
     }
 });

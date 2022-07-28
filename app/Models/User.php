@@ -42,7 +42,11 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+    public function userIntegrationTwitch() {
+        return $this->hasOne(UserIntegrationTwitch::class, 'user_id', 'id');
+    }
+
     public function userBrowserSource() {
-        return $this->hasMany(userBrowserSource::class);
+        return $this->hasMany(UserBrowserSource::class);
     }
 }

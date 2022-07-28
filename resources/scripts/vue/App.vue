@@ -1,6 +1,6 @@
 <template>
     <router-view v-if="route.meta.standalone"></router-view>
-    <div v-else>
+    <div v-else class="outer-container">
         <AppModal :isShowing="store.state.showModal" />
         <div class="main-menu-container" :class="{ blurred: store.state.showModal === true }">
             <MenuMain />
@@ -23,17 +23,9 @@ const store = useStore();
 const route = useRoute();
 
 const checkAuth = () => {
-  axios.get('/sanctum/csrf-cookie').then((response: any) => {
-        axios.post('/api/checkauth')
-            .then((response: any) => {
-                if (response.data.success) {
-                    store.commit('setAuthData', response.data.authData);
-                }
-            })
-            .catch((error: any) => {
-                console.error(error);
-            });
-    })
+    //@ts-ignore
+    store.commit('setCSRF', window.Laravel.csrfToken);
+    store.dispatch('setAuth');
 }
 
 onBeforeMount(() => {
@@ -43,4 +35,8 @@ onBeforeMount(() => {
 
 <style scoped lang="scss">
 
+.outer-container {
+    display: flex;
+    flex-direction: column;
+}
 </style>

@@ -25,7 +25,7 @@
 
 <script setup lang="ts">
 import axios from 'axios';
-import { reactive, onMounted, computed, ref, watch, inject } from 'vue';
+import { reactive, onMounted, onUnmounted, computed, ref, watch, inject } from 'vue';
 import { useStore } from 'vuex';
 import AnagramsSettings from '~components/games/anagrams/AnagramsSettings.vue';
 import AnagramsLoading from '~components/games/anagrams/AnagramsLoading.vue';
@@ -34,15 +34,17 @@ import AnagramsResults from '~components/games/anagrams/AnagramsResults.vue';
 import AnimationTextGif from '~components/AnimationTextGif.vue';
 import AnimationSquigglyText from '~components/AnimationSquigglyText.vue';
 import * as AnagramTypes from '~types/gamesAnagramTypes';
+import { KARTHY_BOT } from '~types/injectionSymbols';
 
 const props = defineProps<{ userId: number }>()
 
-const karthyBot = inject('karthyBot');
+const karthyBot = inject(KARTHY_BOT);
 
 const store = useStore();
 
 const state = reactive<AnagramTypes.GameState>({
     userId: props.userId,
+    gameOwner: null,
     gameReady: false,
     resultsActive: false,
     currentGameState: 'loading',
@@ -131,6 +133,7 @@ const loadGame = () => {
     axios.post('/api/games/words/load_game', {
         userId: props.userId
     }).then(response => {
+        state.gameOwner = response.data.user;
         if (response.data.activeGame) {
             state.gameUserScores = JSON.parse(response.data.activeGame.score_data) ?? {};
             state.gameXp = response.data.activeGame.game_xp ?? 0;
@@ -151,6 +154,11 @@ watch(() => store.state.karthyBot, () => {
 
 onMounted(() => {
     loadGame();
+    karthyBot.send(JSON.stringify({action: 'setWords', user: store.state.authData.twitch?.twitch_login, state: true}));
+})
+
+onUnmounted(() => {
+    karthyBot.send(JSON.stringify({action: 'setWords', user: store.state.authData.twitch?.twitch_login, state: false}));
 })
 </script>
 

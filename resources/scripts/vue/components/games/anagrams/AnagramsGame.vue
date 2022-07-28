@@ -55,7 +55,7 @@
 
 <script setup lang="ts">
 import axios from 'axios';
-import { defineProps, computed, ref, watch, reactive, onMounted, inject } from "vue";
+import { defineProps, computed, ref, watch, reactive, onMounted, inject, onUnmounted } from "vue";
 import { Vue3Marquee } from 'vue3-marquee';
 import 'vue3-marquee/dist/style.css';
 import { useStore } from 'vuex';
@@ -141,7 +141,7 @@ const submitWord = (karthyBotData: CommonUserstate) => {
         if (letterCount > 8) letterCount = "9+";
         roundState.roundData.foundWordCount[letterCount as keyof AnagramTypes.FoundWordsByLetterCount]++;
         // Reply in chat
-        karthyBot.send(JSON.stringify({user: byUser, word: guessWord, channel: channel}));
+        karthyBot.send(JSON.stringify({action: 'replyWords', user: byUser, word: guessWord, channel: channel}));
         emit('playSound', 'word_found.wav');
         // Clear previous word found pop up and create new
         foundWordPopup(byUser, guessWord);
@@ -333,7 +333,7 @@ watch(() => store.state.karthyBot, () => {
 
 onMounted(() => {
     loadRound();
-})
+});
 </script>
 
 <style lang="scss" scoped>

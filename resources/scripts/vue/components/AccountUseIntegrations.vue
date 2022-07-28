@@ -80,20 +80,4 @@ button {
     }
 }
 
-.twitch {
-    background: #6441a5;
-
-    &:hover {
-        background: #815fc0;
-    }
-}
-
-.youtube {
-    background: #b2071d;
-
-    &:hover {
-        background: #de0924;
-    }
-}
-
 </style>

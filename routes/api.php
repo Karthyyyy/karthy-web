@@ -31,6 +31,9 @@ Route::post('/login', [UserController::class, 'login']);
 Route::post('/register', [UserController::class, 'register']);
 Route::post('/logout', [UserController::class, 'logout'])->middleware('auth:sanctum');
 Route::post('/checkauth', [UserController::class, 'checkauth']);
+Route::get('/get_integrations_twitch', [UserController::class, 'getIntegrationsTwitch']);
+Route::post('/integrate_twitch', [UserController::class, 'integrateTwitch']);
+Route::delete('/revoke_twitch', [UserController::class, 'revokeTwitchAccess']);
 
 Route::post('/account/save_browser_source', [AccountDashboardController::class, 'saveBrowserSourceSettings']);
 Route::post('/account/get_browser_source', [AccountDashboardController::class, 'getBrowserSource']);

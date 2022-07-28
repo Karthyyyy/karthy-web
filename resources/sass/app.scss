@@ -7,6 +7,7 @@
 // Variables
 @import 'variables';
 @import 'generalLayout';
+@import 'generalComponents';
 
 *, *:before, *:after {
     box-sizing: border-box;
@@ -45,23 +46,60 @@ select {
     }
 }
 
-button {
+button, .button {
     font-family: inherit;
     padding: 0.5rem 1rem;
     border-radius: 6px;
     border: 0;
     background: $main-blue-3;
     color: $main-blue-9;
-    cursor: pointer;
     text-transform: uppercase;
     font-size: 0.8em;
     height: 39px;
 
     transition: all 0.2s ease;
 
-    &:hover {
+    &.disabled {
+        cursor: default;
+    }
+
+    &:not(.disabled):hover {
+        cursor: pointer;
         background: $main-blue-4;
         box-shadow:0 0 15px 4px rgba(0,0,0,0.6);
+    }
+
+    &.danger {
+        background: $pastel-red;
+        color: rgb(85, 0, 0);
+    
+        &:not(.disabled):hover {
+            background: $pastel-red-light;
+        }
+    }
+
+    &.twitch {
+        background: #6441a5;
+    
+        &:not(.disabled):hover {
+            background: #815fc0;
+        }
+    }
+    
+    &.youtube {
+        background: #b2071d;
+    
+        &:not(.disabled):hover {
+            background: #de0924;
+        }
+    }
+    
+    &.discord {
+        background: #5865F2;
+    
+        &:not(.disabled):hover {
+            background: #7f87e7;
+        }
     }
 }
 

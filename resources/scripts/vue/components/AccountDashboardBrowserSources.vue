@@ -1,6 +1,6 @@
 <template>
     <div>
-        <h1>Browser Sources</h1>
+        <h2>Browser Sources</h2>
         <div class="content-section">
             <div class="browser-source-select-container">
                 <select class="browser-source-select" v-model="activeBrowserSource">
@@ -65,10 +65,6 @@ onMounted(() => {
 
 <style lang="scss" scoped>
 @import '~styles/_variables';
-.content-section {
-    background-color: $dark-grey;
-    padding: 1rem;
-}
 
 .browser-source-select-container {
     display: flex;

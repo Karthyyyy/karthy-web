@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use App\Models\GamesAnagramsActiveGames;
 use App\Models\GamesAnagramsUserStats;
 use App\Models\AppLevels;
+use App\Models\User;
 use Carbon\Carbon;
 
 class AnagramsController extends Controller
@@ -15,13 +16,16 @@ class AnagramsController extends Controller
     public function loadGame(Request $request) {
         try {
             $activeGame = GamesAnagramsActiveGames::where('user_id', $request["userId"])->first();
+            $user = User::where('id', $request["userId"])->first();
             if ($activeGame) {
                 $response = [
-                    'activeGame' => $activeGame
+                    'activeGame' => $activeGame,
+                    'user' => $user
                 ];
             } else {
                 $response = [
-                    'activeGame' => null
+                    'activeGame' => null,
+                    'user' => $user
                 ];
             }
         } catch (Throwable $e) {

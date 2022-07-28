@@ -3,8 +3,16 @@
     -webkit-filter: blur(3px);
 }
 
+.main-menu-container {
+    z-index: 5;
+    border-bottom: 1px solid $black;
+    box-shadow: 0 2px 4px rgba(0,0,10,0.5);
+}
+
 .main-body-container {
     min-height: calc(100vh - 63px);
+    display: flex;
+    flex-direction: column;
 }
 
 .side-nav {
@@ -75,4 +83,25 @@
 
 .content-placeholder {
     font-size: 4rem;
+}
+
+// Content
+.content-body {
+    display: block;
+    min-width: 45rem;
+    background: $grey-15;
+    width: 45vw;
+    flex-grow: 1;
+    margin: 0 auto;
+
+    h2 {
+        font-size: 1.2rem;
+        margin: 1rem 1.5rem;
+        color: $secondary-blue-7;
+    }
+}
+
+.content-section {
+    background-color: $dark-grey;
+    padding: 1.5rem;
 }
