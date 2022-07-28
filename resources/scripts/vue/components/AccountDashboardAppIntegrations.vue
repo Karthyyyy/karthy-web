@@ -2,6 +2,7 @@
     <div>
         <h2>Account Integrations</h2>
         <div class="content-section">
+            {{ twitchError }}
             <a :href="`https://id.twitch.tv/oauth2/authorize?response_type=code&force_verify=true&client_id=${TWITCH_CLIENT_ID}&redirect_uri=${APP_URL}/account&scope=user%3Aread%3Aemail&state=${store.state.csrf}`" 
                 class="twitch button" target="_top" v-if="!store.state.authData.twitch?.id">
                 <font-awesome-icon :icon="['fa-brands', 'twitch']" class="fa-2x" />
@@ -31,12 +32,13 @@
 import { useStore } from 'vuex';
 import { useRoute, useRouter } from 'vue-router';
 import axios from 'axios';
-import { onMounted, watch } from 'vue';
+import { onMounted, watch, ref } from 'vue';
 
 const APP_URL = import.meta.env.VITE_APP_URL;
 const TWITCH_CLIENT_ID = import.meta.env.VITE_TWITCH_CLIENT_ID;
 const TWITCH_CLIENT_SECRET = import.meta.env.VITE_TWITCH_CLIENT_SECRET;
 
+const twitchError = ref<string | null>(null)
 const router = useRouter();
 const route = useRoute();
 const store = useStore();
@@ -69,12 +71,14 @@ const connectedWithTwitch = () => {
             }).then((response: any) => {
                 store.dispatch('setAuth');
                 router.replace('/account');
+            }).catch(error => {
+                twitchError.value = 'Error saving your data';
             });
         }).catch((error: any) => {
-            console.error(error);
+            twitchError.value = 'Error getting your user data';
         });
     }).catch((error: any) => {
-        console.error(error);
+        twitchError.value = 'Error getting your token';
     });
 }
 
