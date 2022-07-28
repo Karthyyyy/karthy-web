@@ -53,12 +53,16 @@ const connectedWithTwitch = () => {
     }).then((response: any) => {
         const accessToken = response.data.access_token;
         const refreshToken = response.data.refresh_token;
+        console.log('got tokens');
+        console.log(response);
         axios.get(`https://api.twitch.tv/helix/users`, {
             headers: {
                 'Authorization': 'Bearer ' + accessToken,
                 'Client-Id': TWITCH_CLIENT_ID
             }
         }).then((response: any) => {
+            console.log('got user data');
+            console.log(response);
             axios.post(`/api/integrate_twitch`, {
                 'access_token': accessToken,
                 'refresh_token': refreshToken,
@@ -69,6 +73,8 @@ const connectedWithTwitch = () => {
                 'broadcaster_type': response.data.data[0].broadcaster_type,
                 'view_count': response.data.data[0].view_count
             }).then((response: any) => {
+                console.log('saved user data');
+                console.log(response);
                 store.dispatch('setAuth');
                 router.replace('/account');
             }).catch(error => {
