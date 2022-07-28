@@ -154,11 +154,19 @@ watch(() => store.state.karthyBot, () => {
 
 onMounted(() => {
     loadGame();
-    karthyBot.send(JSON.stringify({action: 'setWords', user: store.state.authData.twitch?.twitch_login, state: true}));
+    karthyBot.onopen = () => karthyBot.send(JSON.stringify({
+        action: 'setWords',
+        user: store.state.authData.twitch?.twitch_login,
+        state: true
+    }));
 })
 
 onUnmounted(() => {
-    karthyBot.send(JSON.stringify({action: 'setWords', user: store.state.authData.twitch?.twitch_login, state: false}));
+    karthyBot.onopen = () => karthyBot.send(JSON.stringify({
+        action: 'setWords',
+        user: store.state.authData.twitch?.twitch_login,
+        state: false
+    }));
 })
 </script>
 
