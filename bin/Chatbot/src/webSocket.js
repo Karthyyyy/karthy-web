@@ -8,8 +8,8 @@ export default class KarthyBotWebSocketServer {
         let server;
         if (process.env.APP_URL.includes('https')) {
             server = https.createServer({
-                cert: fs.readFileSync('/etc/letsencrypt/live/karthy.tv/fullchain1.pem'),
-                key: fs.readFileSync('/etc/letsencrypt/live/karthy.tv/privkey1.pem')
+                cert: fs.readFileSync('/etc/letsencrypt/live/karthy.tv/fullchain.pem'),
+                key: fs.readFileSync('/etc/letsencrypt/live/karthy.tv/privkey.pem')
             });
             this.webSocketServer = new WebSocket.Server({ server });
             server.listen(7071);
