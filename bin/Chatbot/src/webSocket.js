@@ -1,9 +1,21 @@
 import WebSocket, { WebSocketServer } from 'ws';
 import { twitch } from './app.js';
+import https from 'https';
+import fs from 'fs';
 
 export default class KarthyBotWebSocketServer {
     constructor() {
-        this.webSocketServer = new WebSocketServer({ port: 7071 });
+        let server;
+        if (process.env.APP_URL.includes('https')) {
+            server = https.createServer({
+                cert: fs.readFileSync('/etc/letsencrypt/live/karthy.tv/fullchain.pem'),
+                key: fs.readFileSync('/etc/letsencrypt/live/karthy.tv/privkey.pem')
+            });
+            this.webSocketServer = new WebSocket.Server({ server });
+            server.listen(7071);
+        } else {
+            this.webSocketServer = new WebSocket.Server({ port: 7071 });
+        }
         this.webSocketClient;
         this.initServer();
         console.log("webSocket initialized!")

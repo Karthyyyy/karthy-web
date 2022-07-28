@@ -2,7 +2,7 @@ import type WebSocketAlias from 'ws';
 
 import store from "./vue/store";
 
-const karthyBot = new WebSocket(`wss://${import.meta.env.VITE_APP_DOMAIN}:7071/`);
+const karthyBot = new WebSocket(`${import.meta.env.VITE_KARTHYBOT_URL}:7071/`);
 
 karthyBot.onopen = function(event) {
     
