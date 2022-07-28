@@ -23,7 +23,7 @@ return new class extends Migration
             $table->string('twitch_login');
             $table->string('twitch_display_name');
             $table->string('twitch_email');
-            $table->string('broadcaster_type');
+            $table->string('broadcaster_type')->nullable(true);
             $table->integer('view_count');
             $table->json('module_metadata')->default('{}');
         });
