@@ -164,7 +164,7 @@ class UserController extends Controller
                 $success = true;
             } catch (\Illuminate\Database\QueryException $ex) {
                 $success = false;
-                $message = 'There was a problem saving your integration';
+                $message = $ex;
             }
 
         }
