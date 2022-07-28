@@ -42,6 +42,7 @@ export default class TwitchClient {
         }
         this.client.channels = Object.keys(usersData.usersModules);
         this.usersData = usersData;
+        console.log(this.client.channels)
       }).catch((error) => {
         console.log(error);
       })
