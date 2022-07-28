@@ -152,21 +152,30 @@ watch(() => store.state.karthyBot, () => {
     state.incomingMessage = store.state.karthyBot;
 });
 
-onMounted(() => {
-    loadGame();
-    karthyBot.onopen = () => karthyBot.send(JSON.stringify({
+const setWords = () => {
+    const sendData = JSON.stringify({
         action: 'setWords',
         user: store.state.authData.twitch?.twitch_login,
         state: true
-    }));
+    })
+    if (karthyBot.readyState === WebSocket.OPEN) {
+        karthyBot.send(sendData)
+    } else if (karthyBot.readyState == WebSocket.CONNECTING) {
+        karthyBot.addEventListener('open', () => setWords())
+    }
+}
+
+onMounted(() => {
+    loadGame();
+    setWords();
 })
 
 onUnmounted(() => {
-    karthyBot.onopen = () => karthyBot.send(JSON.stringify({
+    karthyBot.send(JSON.stringify({
         action: 'setWords',
         user: store.state.authData.twitch?.twitch_login,
         state: false
-    }));
+    }))
 })
 </script>
 
