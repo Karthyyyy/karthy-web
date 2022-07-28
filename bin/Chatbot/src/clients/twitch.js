@@ -52,7 +52,8 @@ export default class TwitchClient {
     handleMessages() {
       this.client.on('message', (channel, tags, message, self) => {
         const channelUser = channel.replace('#', '');
-        console.log('twitch message received');
+        console.log('twitch message received from '+ tags.username +': ' + message);
+        console.log(this.usersData.usersModules);
         // Ignore echoed messages.
         if (self) return;
 
