@@ -16,16 +16,19 @@ class AnagramsController extends Controller
     public function loadGame(Request $request) {
         try {
             $activeGame = GamesAnagramsActiveGames::where('user_id', $request["userId"])->first();
-            $user = User::where('id', $request["userId"])->first();
+            $user = User::find($request["userId"])->first();
+            $userTwitch = User::find($request["userId"])->userIntegrationTwitch()->first();
             if ($activeGame) {
                 $response = [
                     'activeGame' => $activeGame,
-                    'user' => $user
+                    'user' => $user,
+                    'userTwitch' => $userTwitch
                 ];
             } else {
                 $response = [
                     'activeGame' => null,
-                    'user' => $user
+                    'user' => $user,
+                    'userTwitch' => $userTwitch
                 ];
             }
         } catch (Throwable $e) {

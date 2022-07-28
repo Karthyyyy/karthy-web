@@ -45,6 +45,7 @@ const store = useStore();
 const state = reactive<AnagramTypes.GameState>({
     userId: props.userId,
     gameOwner: null,
+    gameOwnerTwitch: null,
     gameReady: false,
     resultsActive: false,
     currentGameState: 'loading',
@@ -134,6 +135,7 @@ const loadGame = () => {
         userId: props.userId
     }).then(response => {
         state.gameOwner = response.data.user;
+        state.gameOwnerTwitch = response.data.userTwitch;
         if (response.data.activeGame) {
             state.gameUserScores = JSON.parse(response.data.activeGame.score_data) ?? {};
             state.gameXp = response.data.activeGame.game_xp ?? 0;

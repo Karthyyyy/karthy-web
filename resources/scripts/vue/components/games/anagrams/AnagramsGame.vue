@@ -321,8 +321,8 @@ watch(() => props.gameState?.currentGameState, () => {
     }
 });
 watch(() => store.state.karthyBot, () => {
-    if (store.state.karthyBot.channel === '#karthy') {
-        if (store.state.karthyBot.user == 'karthy' && store.state.karthyBot.message == '!newgame') {
+    if (store.state.karthyBot.channel.replace('#', '') === props.gameState.gameOwnerTwitch?.twitch_login) {
+        if (store.state.karthyBot.user == props.gameState.gameOwnerTwitch?.twitch_login && store.state.karthyBot.message == '!newgame') {
             restartGame();
         }
         if (!(/\s/).test(store.state.karthyBot.message)) {

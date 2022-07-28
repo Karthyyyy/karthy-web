@@ -14,6 +14,23 @@ declare namespace App.Models {
         updated_at: string;
     }
 
+    export interface UserIntegrationTwitch {
+        id: number;
+        created_at: string | null;
+        updated_at: string | null;
+        user_id: number;
+        access_token: string;
+        refresh_token: string;
+        twitch_id: string;
+        twitch_login: string;
+        twitch_display_name: string;
+        twitch_email: string;
+        broadcaster_type: string | null;
+        view_count: number;
+        module_metadata: Array<any> | any;
+        user?: App.Models.User | null;
+    }
+
     export interface GamesAnagramsUserStats {
         id: number;
         created_at: string | null;
@@ -23,6 +40,16 @@ declare namespace App.Models {
         platform_user_id: string;
         platform_user_name: string;
         total_xp: number;
+    }
+
+    export interface GamesAnagramsActiveGames {
+        id: number;
+        created_at: string | null;
+        updated_at: string | null;
+        user_id: number;
+        game_xp: number;
+        score_data: Array<any> | any;
+        user?: App.Models.User | null;
     }
 
     export interface GamesWordsList {
@@ -53,6 +80,7 @@ declare namespace App.Models {
         remember_token: string | null;
         created_at: string | null;
         updated_at: string | null;
+        user_integration_twitch?: App.Models.UserIntegrationTwitch | null;
         user_browser_source?: Array<App.Models.UserBrowserSource> | null;
         user_browser_source_count?: number | null;
     }

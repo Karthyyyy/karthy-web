@@ -4,6 +4,7 @@ type GameStateTypes = "ingame" | "results" | "loading";
 interface GameState {
     userId: number,
     gameOwner: App.Models.User | null,
+    gameOwnerTwitch: App.Models.UserIntegrationTwitch | null,
     gameReady: boolean,
     resultsActive: boolean,
     currentGameState: GameStateTypes,
