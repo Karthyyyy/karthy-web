@@ -35,7 +35,7 @@ export default class DiscordClient {
         this.client.once("ready", () => {
             console.log("Discord connected!");
 
-            setInterval(() => {this.sendUselessFact('201465471491506176')}, 14400000);
+            setInterval(() => {this.sendUselessFact('201465471491506176')}, 28800000);
 
             this.setSlashCommands().then(() => {
                 const rest = new REST({ version: '9' }).setToken(this.token);

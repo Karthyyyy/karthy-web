@@ -1,5 +1,11 @@
 <template>
     <div class="game-container" v-if="props.gameState?.currentGameState === 'ingame'">
+        <div class="anagrams-timer-container">
+            <div class="anagrams-timer">
+                <span class="timer-text">{{ roundTimer.time }}</span>
+                <span class="timer-text-animation" :class="{ animating : roundTimer.animate }">{{ roundTimer.time }}</span>
+            </div>
+        </div>
         <div class="anagrams-xp-container" :style="xpStyles">
             <div class="anagrams-xp">
                 <div class="xp-bar xp-current"></div>
@@ -70,7 +76,7 @@ const props = defineProps<{gameState: AnagramTypes.GameState}>();
 const roundState = reactive<AnagramTypes.RoundState>({
     gameSettings: {
         timerLockout: 30,
-        timerGame: 300,
+        timerGame: 150,
         isMasterShuffling: false
     },
     roundData: {
@@ -121,6 +127,18 @@ const xpStyles = computed(() => {
     return {
         '--xp-current-width': `${xpGainedWidth}%`,
         '--xp-pass-width': `${xpPassWidth}%`
+    }
+})
+
+const roundTimer = computed(() => {
+    const timer = roundState.gameSettings.timerGame;
+    const minutes = Math.floor(timer / 60);
+    const seconds = String(timer - minutes * 60).padStart(2, '0');
+    const animate = (Math.round(timer / 5) / (1 / 5) === timer) ? true : false;
+
+    return {
+        time: minutes + ':' + seconds,
+        animate: animate
     }
 })
 
@@ -179,7 +197,7 @@ const isLockedOut = (byUser: string) => {
 }
 
 const timerStart = () => {
-    reshuffleTimer(10000);
+    manageTimer();
     lockoutTimer();
 }
 
@@ -198,14 +216,6 @@ const lockoutTimer = () => {
 
 const countWordsInGroup = (group: App.Models.GamesWordsList[]) => {
     return group.length;
-}
-
-const reshuffleTimer = (timeInMs: number) => {
-    setInterval(function() {
-        if (props.gameState?.isShuffling && !roundState.roundData.masterWordsFoundBy) {
-            shuffleWord();  
-        }
-    }, timeInMs);
 }
 
 const marqueeDuration = (group: App.Models.GamesWordsList[]) => {
@@ -275,7 +285,9 @@ const resetFoundWordCount = () => {
 }
 
 const loadRound = () => {
-    axios.get('/api/games/words/new_round').then(response => {
+    axios.get('/api/games/words/new_round', {
+        params: {difficulty: 5}
+    }).then(response => {
         roundState.roundData.masterWord = response.data.masterWord.word;
         roundState.roundData.anagramsByLetterCount = response.data.anagramsByLetters;
         roundState.resultsRound.allWords = response.data.anagramsUngrouped;
@@ -300,6 +312,15 @@ const setMaxXp = () => {
     })
     roundState.roundData.xpMax = maxXp*10;
     roundState.roundData.xpToPass = maxXp / 3.5;
+}
+
+const manageTimer = () => {
+    setInterval(() => {
+        if (roundState.gameSettings.timerGame === 0) endRound();
+        if (roundState.gameSettings.timerGame > 0) roundState.gameSettings.timerGame--;
+        if (Math.round(roundState.gameSettings.timerGame / 10) / (1 / 10) === roundState.gameSettings.timerGame)
+            shuffleWord();
+    }, 1000);
 }
 
 const restartGame = () => {
@@ -342,6 +363,49 @@ onMounted(() => {
 .anagrams-xp-container {
     position: relative;
     margin: 1rem 0 2rem 1rem;
+}
+
+.anagrams-timer-container {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 15;
+
+    .anagrams-timer {
+        font-size: 1.8em;
+        padding: 0.25rem 1rem;
+        background: $secondary-blue-8;
+        color: $grey-1;
+        border-radius: 0.25rem;
+        position: relative;
+        box-shadow: 2px 2px 3px $grey-2;
+
+        .timer-text {
+            display: inline-block;
+            font-weight: bold;
+        }
+
+        .timer-text-animation {
+            font-weight: bold;
+            position: absolute;
+            left: 0;
+            right: 0;
+            text-align: center;
+            display: inline-block;
+            visibility: hidden;
+
+            &.animating {
+                visibility: visible;
+                transform: scale(50);
+                opacity: 0;
+                transition: opacity 0.8s ease-in, transform 0.8s ease-in;
+            }
+        }
+    }
 }
 
 .anagrams-xp {
